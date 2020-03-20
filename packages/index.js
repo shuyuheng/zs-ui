@@ -6,7 +6,7 @@ import Steep from './Steep'
 // 例如   import '**/***.css'
 
 // 将所有的组件放入数组中 利于遍历注册
-const components = [  
+const components = [ 
     Steep,
 ]
 
@@ -17,8 +17,6 @@ let install = function(Vue){
     components.forEach(item => {
         Vue.component(item.name,item)
     })
-    console.log(123)
-
 }
 // 这一步是为了 如果直接引入文件 就不用调用 Vue.use()
 if(typeof window != 'undefined' && window.Vue){

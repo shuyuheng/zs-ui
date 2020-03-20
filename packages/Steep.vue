@@ -212,12 +212,9 @@ export default {
         }, this.time * 1000);
         return;
       }
-      console.log(this.currentIndex)
-
       if (this.currentIndex < 0) {
         this.currentIndex = this.data.length - 1;
       }
-      console.log(this.currentIndex)
     },
     // 开锁
     unlocking() {

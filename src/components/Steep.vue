@@ -1,58 +1,4 @@
 <template>
-  <!-- 
-  attribute  --属性
-    "width"   轮播图宽度 默认700px
-    "height"  轮播图高度 默认400px
-    "type"    轮播图类型 infinite[无限] default  fade[淡入淡出]   stack 层叠
-    "time"    动画时间  1s/2s/0.5s
-    "noIndicator" 是否显示指示器   true/false
-    "noBtn"     是否显示左右按钮  默认显示  false   / true
-    "auto"    是否循环播放默认false   true/false
-    "autoTime" 循环播放间隔时间 2000/1000/Number
-    "bottomBtnClass"  定义小按钮
-  slot   --具名插槽
-    "left-btn"   左边的按钮
-    "right-btn"  右边的按钮
-
-==============================
-使用方法
-
-      <steep :data="images" type="default">
-        <div
-        style="color:red;font-size:45px"
-        :slot="'steep_item'+i"
-        v-for="(item,i) in images"
-        :key="i"
-        >内容：{{i}}</div>
-      </steep>
-基础数据结构
-// 轮播图数据
-      images: [
-        {
-          src: require("./assets/images/aa.jpg")
-        },
-        {
-          src: require("./assets/images/bb.jpg")
-        },
-        {
-          src: require("./assets/images/cc.jpg")
-        },
-        {
-          src: require("./assets/images/dd.jpg")
-        },
-        {
-          src: require("./assets/images/ee.jpg")
-        },
-        {
-          src: require("./assets/images/ff.jpg")
-        }
-      ]
-
-
-============================
-
-
-  -->
   <div :style="reStyle()" class="steep" @mouseover="clearTimer" @mouseout="openTimer">
     <div v-if="!noBtn" class="steep-left steep-btn" @click="leftFn">
       <slot name="left-btn">
@@ -78,14 +24,11 @@
         :key="i"
       >
         <div class="slot-item">
-          <!-- <slot :name="`steep_item${i}`"></slot> -->
           <!-- 轮播内容区域 -->
           <slot :data=item></slot>
         </div>
       </div>
-      <!--  -->
     </div>
-    <!--  -->
     <div v-if="!noBtn" class="steep-right steep-btn" @click="rightFn">
       <slot name="right-btn">
         <span class="default-btn">》</span>
@@ -284,7 +227,6 @@ export default {
       if (this.currentIndex < 0) {
         this.currentIndex = this.data.length - 1;
       }
-      console.log(this.currentIndex)
     },
     // 开锁
     unlocking() {
