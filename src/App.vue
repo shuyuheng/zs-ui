@@ -1,56 +1,38 @@
 <template>
-  <div>
-    <div style="width:1200px;height:600px"
-    >
-      轮播图 
-      <steep :data="images"
-      type="stack"
-      loop
-      bottomBtnClass="ll"
-      >
-        <div
-        style="color:red;font-size:45px"
-        :slot="'steep_item'+i"
-        v-for="(item,i) in images"
-        :key="i"
-        >内容：{{i}}</div>
-      </steep>
-      <!-- 测试使用 -->
-      <zs-Sweiper :data=images>
-        
-      </zs-Sweiper>
-    </div>
-  </div>
+  <zs-Sweiper :data="images" width="700" height="400" :time="1" auto>
+    <template v-slot:default="{data:data}">
+      {{data}}
+      <img :src="data.src" width="100%" height="100%" />
+    </template>
+  </zs-Sweiper>
 </template>
 
 <script>
-import steep from "./components/Steep.vue";
-
 export default {
-  components: {
-    steep, //轮播图
-  },
   data() {
     return {
       // 轮播图数据
       images: [
         {
-          src: require("./assets/images/aa.jpg")
+          src: "http://www.shuyuhng.top:9999/img/aa.bdab5332.jpg"
         },
         {
-          src: require("./assets/images/bb.jpg")
+          src: "http://www.shuyuhng.top:9999/img/aa.bdab5332.jpg"
         },
         {
-          src: require("./assets/images/cc.jpg")
+          src: "http://www.shuyuhng.top:9999/img/aa.bdab5332.jpg"
         },
         {
-          src: require("./assets/images/dd.jpg")
+          src: "http://www.shuyuhng.top:9999/img/aa.bdab5332.jpg"
         },
         {
-          src: require("./assets/images/ee.jpg")
+          src: "http://www.shuyuhng.top:9999/img/aa.bdab5332.jpg"
         },
         {
-          src: require("./assets/images/ff.jpg")
+          src: "http://www.shuyuhng.top:9999/img/aa.bdab5332.jpg"
+        },
+        {
+          src: "http://www.shuyuhng.top:9999/img/aa.bdab5332.jpg"
         }
       ]
     };

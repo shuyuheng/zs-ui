@@ -5,11 +5,10 @@
     "height"  轮播图高度 默认400px
     "type"    轮播图类型 infinite[无限] default  fade[淡入淡出]   stack 层叠
     "time"    动画时间  1s/2s/0.5s
-    "isImg"   是否显示图片 默认显示   true/false
-    "isIndicator" 是否显示指示器   true/false
-    "isBtn"     是否显示左右按钮
-    "loop"    是否循环播放默认false   true/false
-    "loopTime" 循环播放间隔时间 2000/1000/Number
+    "noIndicator" 是否显示指示器   true/false
+    "noBtn"     是否显示左右按钮  默认显示  false   / true
+    "auto"    是否循环播放默认false   true/false
+    "autoTime" 循环播放间隔时间 2000/1000/Number
     "bottomBtnClass"  定义小按钮
   slot   --具名插槽
     "left-btn"   左边的按钮
@@ -55,7 +54,7 @@
 
   -->
   <div :style="reStyle()" class="steep" @mouseover="clearTimer" @mouseout="openTimer">
-    <div v-if="isBtn" class="steep-left steep-btn" @click="leftFn">
+    <div v-if="!noBtn" class="steep-left steep-btn" @click="leftFn">
       <slot name="left-btn">
         <span class="default-btn">《</span>
       </slot>
@@ -78,21 +77,22 @@
         v-for="(item,i) in data"
         :key="i"
       >
-        <img :style="reStyle()" v-if="isImg" class="item-img" :src="item.src" alt />
         <div class="slot-item">
-          <slot :name="`steep_item${i}`"></slot>
+          <!-- <slot :name="`steep_item${i}`"></slot> -->
+          <!-- 轮播内容区域 -->
+          <slot :data=item></slot>
         </div>
       </div>
       <!--  -->
     </div>
     <!--  -->
-    <div v-if="isBtn" class="steep-right steep-btn" @click="rightFn">
+    <div v-if="!noBtn" class="steep-right steep-btn" @click="rightFn">
       <slot name="right-btn">
         <span class="default-btn">》</span>
       </slot>
     </div>
     <!-- 底部的指示器 -->
-    <div class="indicator" v-if="isIndicator">
+    <div class="indicator" v-if="!noIndicator">
       <div
         class="steep-indicator-item"
         v-for="(item,i) in dataLength()"
@@ -134,27 +134,23 @@ export default {
       type: Number,
       default: 0.8
     },
-    isImg: {
-      type: Boolean,
-      default: true
-    },
-    loop: {
+    auto: {
       type: Boolean,
       default: false
     },
-    loopTime: {
+    autoTime: {
       type: Number,
       default: 3000
     },
     // 指示器
-    isIndicator:{
+    noIndicator:{
       type:Boolean,
-      default:true
+      default:false
     },
     // 左右按钮
-    isBtn:{
+    noBtn:{
       type:Boolean,
-      default:true
+      default:false
     },
   },
   computed: {
@@ -288,6 +284,7 @@ export default {
       if (this.currentIndex < 0) {
         this.currentIndex = this.data.length - 1;
       }
+      console.log(this.currentIndex)
     },
     // 开锁
     unlocking() {
@@ -298,13 +295,13 @@ export default {
     // 开启定时器
     openTimer() {
       // 判断是否可以开启
-      if (!this.loop) return;
+      if (!this.auto) return;
       // 开局清除
       clearInterval(this.timer);
       // 启动
       this.timer = setInterval(() => {
         this.rightFn();
-      }, this.loopTime);
+      }, this.autoTime);
     },
     // 清除定时器
     clearTimer() {
@@ -341,12 +338,16 @@ export default {
     // 清除定时器
     this.clearTimer()
   },
+  provide() {
+    return {
+      data: this.data
+    };
+  }
 };
 </script>
 
 <style>
 .steep {
-  background-color: rgba(222, 222, 222, 0.8);
   position: relative;
   overflow: hidden;
 }
@@ -464,13 +465,13 @@ export default {
 .steep-indicator-item {
   display: inline-block;
   padding: 3px 10px;
-  background-color: rgba(255, 44, 44, 0.6);
+  background-color: rgba(44, 44, 44, 0.2);
   margin: 0 2px;
   vertical-align: middle;
   cursor: pointer;
 }
 .steep-indicator-item.active {
-  background-color: white;
+  background-color:sandybrown;
 }
 /* .ll{
   border-radius: 50%;

@@ -1,133 +1,97 @@
- *
-
- *attribute --属性*
-
-  *"width"  轮播图宽度 默认700px*
-
-  *"height" 轮播图高度 默认400px*
-
-  *"type"  轮播图类型 infinite[无限] default fade[淡入淡出]  stack 层叠*
-
-  *"time"  动画时间 1s/2s/0.5s*
-
-  *"isImg"  是否显示图片 默认显示  true/false*
-
-  *"isIndicator" 是否显示指示器  true/false*
-
-  *"isBtn"   是否显示左右按钮*
-
-  *"loop"  是否循环播放默认false  true/false*
-
-  *"loopTime" 循环播放间隔时间 2000/1000/Number*
-
-  *"bottomBtnClass" 定义小按钮*
-
- *slot  --具名插槽*
-
-  *"left-btn"  左边的按钮*
-
-  *"right-btn" 右边的按钮*
-
-
-
-*==============================*
-
-*使用方法*
-
-
-
-   **
-
-   <zs-Sweiper :data=images>
-
-​     <div
-
-​    style="color:red;font-size:45px"
-
-​    :slot="'steep_item'+i"
-
-​    v-for="(item,i) in images"
-
-​    :key="i"
-
-​    \>内容：{{i}}</div>
-
-   </zs-Sweiper>
-
-   **
-
-*基础数据结构*
-
-*// 轮播图数据*
-
-   *images: [*
-
-​    *{*
-
-​     *src: require("./assets/images/aa.jpg")*
-
-​    *},*
-
-​    *{*
-
-​     *src: require("./assets/images/bb.jpg")*
-
-​    *},*
-
-​    *{*
-
-​     *src: require("./assets/images/cc.jpg")*
-
-​    *},*
-
-​    *{*
-
-​     *src: require("./assets/images/dd.jpg")*
-
-​    *},*
-
-​    *{*
-
-​     *src: require("./assets/images/ee.jpg")*
-
-​    *},*
-
-​    *{*
-
-​     *src: require("./assets/images/ff.jpg")*
-
-​    *}*
-
-   *]*
-
-
-
-
-
-*============================*
-
-# components
-
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
-
+ # sz-ui  组件库  
+
+> 组件库搭建中 ... 感谢您的测试  我们会做的更好
+
+### 安装方法
+
+~~~npm
+npm i sz-ui
+~~~
+
+### 使用方法
+
+~~~javascript
+// 引入sz-ui组件
+import Szui from 'sz-ui'
+// 引入css文件
+import  'sz-ui/dist/sz-ui.css'
+// 使用sz-ui
+Vue.use(Szui)
+~~~
+
+## Components
+
+### 1. zs-Sweiper 轮播图
+
+> 1.使用方法
+
+~~~html
+<template>
+  <zs-Sweiper :data="images" width="700" height="400" :time="1" auto>
+    <template v-slot:default="{data:data}">
+      {{data}}
+      <img :src="data.src" width="100%" height="100%" />
+    </template>
+    <!-- <div slot="left-btn">left</div>
+    <div slot="right-btn">right</div>-->
+  </zs-Sweiper>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      // 轮播图数据
+      images: [
+        {
+          src: "http://www.shuyuhng.top:9999/img/aa.bdab5332.jpg"
+        },
+        {
+          src: "http://www.shuyuhng.top:9999/img/aa.bdab5332.jpg"
+        },
+        {
+          src: "http://www.shuyuhng.top:9999/img/aa.bdab5332.jpg"
+        },
+        {
+          src: "http://www.shuyuhng.top:9999/img/aa.bdab5332.jpg"
+        },
+        {
+          src: "http://www.shuyuhng.top:9999/img/aa.bdab5332.jpg"
+        },
+        {
+          src: "http://www.shuyuhng.top:9999/img/aa.bdab5332.jpg"
+        },
+        {
+          src: "http://www.shuyuhng.top:9999/img/aa.bdab5332.jpg"
+        }
+      ]
+    };
+  }
+};
+</script>
+~~~
+
+> 配置文件
+>
+> > 属性配置
+>
+> |      参数      |       说明       | 选填 |     类型      |           可选值            | 默认值  |
+> | :------------: | :--------------: | :--: | :-----------: | :-------------------------: | :-----: |
+> |      data      |     基础数据     |  否  |     Array     |            ----             |  ----   |
+> |     width      |    轮播图宽度    |  是  | Number/String |            ----             |   700   |
+> |     height     |    轮播图高度    |  是  | Number/String |            -----            |   400   |
+> |      type      |    轮播图类型    |  是  |    String     | infinite/default/fade/stack | default |
+> |      time      |   每次滚动时间   |  是  |    Number     |            ----             |   0.8   |
+> |      auto      |   是否自动播放   |  是  |    Boolean    |         true/false          |  false  |
+> |    autoTime    |  自动播放的时间  |  是  |    Number     |            ----             |  3000   |
+> |  noIndicator   |  是否显示指示器  |  是  |    Boolean    |         true/false          |  false  |
+> |     noBtn      |   是否显示按钮   |  是  |    Boolean    |         true/false          |  false  |
+> | bottomBtnClass | 给指示器绑定类名 |  是  |    String     |            ----             |  ----   |
+>
+> > 插槽
+>
+> | 插槽名称  |    说明    |
+> | :-------: | :--------: |
+> |  default  | 轮播图内容 |
+> | left-btn  | 左边的按钮 |
+> | right-btn | 右边的按钮 |

@@ -1,10 +1,16 @@
 import Vue from 'vue'
 import App from './App.vue'
 
-// 测试 引入自定义组件库
-import AA from '../packages'
-Vue.use(AA)
-// 安装之后测试
+// // 
+// import Steep from './components/Steep'
+// // 注册
+// Vue.component(Steep.name,Steep)
+
+// import Steep from '../packages'
+// Vue.use(Steep)
+
+
+
 
 
 Vue.config.productionTip = false
