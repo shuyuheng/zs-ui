@@ -6,29 +6,33 @@
       </slot>
     </div>
     <!-- 中间的类容 -->
-    <div
-      class="steep-content"
-      :class="[type,{'noTransition':transition}]"
-      :style="'transition-duration:'+time+'s;'+steepSetWidth"
-    >
+    <Slide @direction="direction" :style="slide ? 'cursor: grab;':''">
+      
+      <div>{{slide}}</div>
       <div
-        :style="'transition-duration:'+time+'s;'+reStyle()"
-        class="steep-item"
-        :class="{
+        class="steep-content"
+        :class="[type,{'noTransition':transition}]"
+        :style="'transition-duration:'+time+'s;'+steepSetWidth"
+      >
+        <div
+          :style="'transition-duration:'+time+'s;'+reStyle()"
+          class="steep-item"
+          :class="{
         'show':type == 'fade' && currentIndex == i,
         'front':type == 'stack' && currentIndex == i,
         'xianglingl':(xlIndex[0]==i),
         'xianglingf':( xlIndex[1] == i),
       }"
-        v-for="(item,i) in data"
-        :key="i"
-      >
-        <div class="slot-item">
-          <!-- 轮播内容区域 -->
-          <slot :data=item></slot>
+          v-for="(item,i) in data"
+          :key="i"
+        >
+          <div class="slot-item">
+            <!-- 轮播内容区域 -->
+            <slot :data="item"></slot>
+          </div>
         </div>
       </div>
-    </div>
+    </Slide>
     <div v-if="!noBtn" class="steep-right steep-btn" @click="rightFn">
       <slot name="right-btn">
         <span class="default-btn">》</span>
@@ -41,7 +45,6 @@
         v-for="(item,i) in dataLength()"
         :key="i"
         :class="[bottomBtnClass,{'active':comIndex == i}]"
-
         @click="minBtn(i)"
       ></div>
     </div>
@@ -49,12 +52,17 @@
 </template>
 
 <script>
+// 引入滑动组件
+import Slide from "./Slide";
 export default {
-  name:"zs-Sweiper",
+  name: "sz-Sweiper",
+  components: {
+    Slide
+  },
   props: {
-    bottomBtnClass:String,
+    bottomBtnClass: String,
     // 轮播图数据
-    data: {
+    model: {
       // 数据类型
       type: Array,
       // 此属性必填
@@ -86,15 +94,19 @@ export default {
       default: 3000
     },
     // 指示器
-    noIndicator:{
-      type:Boolean,
-      default:false
+    noIndicator: {
+      type: Boolean,
+      default: false
     },
     // 左右按钮
-    noBtn:{
-      type:Boolean,
-      default:false
+    noBtn: {
+      type: Boolean,
+      default: false
     },
+    slide: {
+      type: Boolean,
+      default: false
+    }
   },
   computed: {
     steepSetWidth() {
@@ -112,16 +124,29 @@ export default {
       return this.currentIndex;
     },
     // 计算相邻索引
-    xlIndex(){
-      let up = this.currentIndex -1
-      let don = this.currentIndex +1
+    xlIndex() {
+      let up = this.currentIndex - 1;
+      let don = this.currentIndex + 1;
       // 判断
-      up = up == -1? this.data.length -1 : up
-      don = don == this.data.length ? 0 : don
-      return [up,don]
+      up = up == -1 ? this.data.length - 1 : up;
+      don = don == this.data.length ? 0 : don;
+      return [up, don];
     }
   },
   methods: {
+    direction(direction) {
+      if (!this.slide) return;
+      switch (direction) {
+        case "left":
+          this.rightFn();
+          break;
+        case "right":
+          this.leftFn();
+          break;
+        default:
+          break;
+      }
+    },
     // 按钮点击
     minBtn(i) {
       // 开锁
@@ -248,6 +273,21 @@ export default {
     // 清除定时器
     clearTimer() {
       clearInterval(this.timer);
+    },
+    resetData() {
+      let arr = [];
+      this.model.forEach((item, i) => {
+        arr[i] = item;
+      });
+      // 设置宽高
+      if (this.type == "default") {
+        this.steepWidth = this.width * arr.length;
+      }
+      if (this.type == "infinite") {
+        arr.push(arr[0]);
+        this.steepWidth = this.width * arr.length;
+      }
+      this.data = arr;
     }
   },
   data() {
@@ -259,18 +299,13 @@ export default {
       // 锁
       lock: true,
       // 定时器
-      timer: null
+      timer: null,
+      data: []
     };
   },
   created() {
-    // 设置宽高
-    if (this.type == "default") {
-      this.steepWidth = this.width * this.data.length;
-    }
-    if (this.type == "infinite") {
-      this.data.push(this.data[0]);
-      this.steepWidth = this.width * this.data.length;
-    }
+    // 刷新数据
+    this.resetData();
   },
   // 加载完毕
   mounted() {
@@ -278,12 +313,26 @@ export default {
   },
   beforeDestroy() {
     // 清除定时器
-    this.clearTimer()
+    this.clearTimer();
   },
   provide() {
     return {
       data: this.data
     };
+  },
+  watch: {
+    cityName: {
+      handler() {
+        this.resetData();
+      },
+      deep: true
+    },
+    type: {
+      handler() {
+        this.resetData();
+      },
+      deep: true
+    }
   }
 };
 </script>
@@ -361,36 +410,36 @@ export default {
   transition: none !important;
 }
 /* 层叠 */
-  .steep .steep-content.stack .steep-item{
-    position: absolute;
-    opacity: 0;
-    z-index: -1;
-    left: 0%;
-    top: 0%;
-    transform: scale(0.5);
-    transition-property: all;
-  }
-  .steep-content.stack .steep-item.front{
-    z-index: 1;
-    opacity: 1;
-    transform: scale(0.7);
-    left: 0%;
-  }
-  /* 相邻的 */
-  .steep-content.stack .steep-item.xianglingf{
-    z-index: 0;
-    opacity: 1;
-    transform: scale(0.5);
-    left: 62%;
-    top: 10%;
-  }
-  .steep-content.stack .steep-item.xianglingl{
-    z-index: 0;
-    opacity: 1;
-    transform: scale(0.5);
-    left: -62%;
-    top: 10%;
-  }
+.steep .steep-content.stack .steep-item {
+  position: absolute;
+  opacity: 0;
+  z-index: -1;
+  left: 0%;
+  top: 0%;
+  transform: scale(0.5);
+  transition-property: all;
+}
+.steep-content.stack .steep-item.front {
+  z-index: 1;
+  opacity: 1;
+  transform: scale(0.7);
+  left: 0%;
+}
+/* 相邻的 */
+.steep-content.stack .steep-item.xianglingf {
+  z-index: 0;
+  opacity: 1;
+  transform: scale(0.5);
+  left: 62%;
+  top: 10%;
+}
+.steep-content.stack .steep-item.xianglingl {
+  z-index: 0;
+  opacity: 1;
+  transform: scale(0.5);
+  left: -62%;
+  top: 10%;
+}
 /* 指示器 */
 .steep .indicator {
   width: 80%;
@@ -413,7 +462,7 @@ export default {
   cursor: pointer;
 }
 .steep-indicator-item.active {
-  background-color:sandybrown;
+  background-color: sandybrown;
 }
 /* .ll{
   border-radius: 50%;

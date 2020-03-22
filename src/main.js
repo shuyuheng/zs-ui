@@ -2,16 +2,23 @@ import Vue from 'vue'
 import App from './App.vue'
 
 // 
-import Steep from './components/Steep'
-// 注册
-Vue.component(Steep.name,Steep)
-// 
-import Slide from './components/Slide'
-Vue.component(Slide.name,Slide)
+// import Steep from './components/Steep'
+// // 注册
+// Vue.component(Steep.name,Steep)
+// // 
+// import Slide from './components/Slide'
+// Vue.component(Slide.name,Slide)
 
-// import Steep from '../packages'
-// Vue.use(Steep)
+// import {Slide} from '../packages'
+// Vue.use(Slide)
+// import {Sweiper} from '../packages'
+// Vue.use(Sweiper)
+// 全局导入
+import Szui from '../packages'
+Vue.use(Szui)
 
+// import Demo from './components/Demo'
+// Vue.component(Demo.name,Demo)
 
 
 
