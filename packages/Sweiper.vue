@@ -304,6 +304,7 @@ export default {
   created() {
     // 刷新数据
     this.resetData();
+    
   },
   // 加载完毕
   mounted() {

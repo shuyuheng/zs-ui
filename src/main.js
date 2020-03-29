@@ -6,16 +6,16 @@ import App from './App.vue'
 // // 注册
 // Vue.component(Steep.name,Steep)
 // // 
-// import Slide from './components/Slide'
-// Vue.component(Slide.name,Slide)
+import Buttons from './components/Buttons'
+Vue.component(Buttons.name,Buttons)
 
 // import {Slide} from '../packages'
 // Vue.use(Slide)
 // import {Sweiper} from '../packages'
 // Vue.use(Sweiper)
 // 全局导入
-import Szui from '../packages'
-Vue.use(Szui)
+// import Szui from '../packages'
+// Vue.use(Szui)
 
 // import Demo from './components/Demo'
 // Vue.component(Demo.name,Demo)

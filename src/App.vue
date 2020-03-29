@@ -1,81 +1,38 @@
 <template>
   <div>
-    <br />
-    <br />
-    <br />
-    <br />
-
-    <sz-Slide @direction="direction">
-      <div style="width:700px;height:400px;background-color:green;">
-      </div>
-    </sz-Slide>
-
-    <br />
-    
-    <br />
-    <br />
-    <br />
-
-    <sz-Sweiper :model="images" :time="0.5" auto type="infinite" slide>
-      <template v-slot:default="{data:data}">
-        {{data}}
-        <img :src="data.src" width="100%" height="100%" @click="fn" />
-      </template>
-    </sz-Sweiper>
-
-    <!-- <demo></demo> -->
+    <sz-Button>12</sz-Button>
+    <div class="box">
+      <div class="a">s &#xe63c; &#xe65a;&#xe6a5;</div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-      // 轮播图数据
-      images: [
-        {
-          title: "第一张图片",
-          src: "http://www.shuyuhng.top:9999/img/aa.bdab5332.jpg"
-        },
-        {
-          title: "第二张图片",
-          src: "http://www.shuyuhng.top:9999/img/aa.bdab5332.jpg"
-        },
-        {
-          title: "第三张图片",
-          src: "http://www.shuyuhng.top:9999/img/aa.bdab5332.jpg"
-        }
-      ]
-    };
-  },
-  methods: {
-    direction(direction) {
-      switch (direction) {
-        case "left":
-          console.log("左滑");
-          break;
-        case "right":
-          console.log("右滑");
-          break;
-        case "up":
-          console.log("上滑");
-          break;
-        case "down":
-          console.log("下滑");
-          break;
-        default:
-          break;
-      }
-    },
-    move(moveData) {
-      console.log(moveData);
-    },
-    fn(){
-      console.log('7878')
-    }
-  }
-};
+
+}
 </script>
 
-<style>
+<style lang="scss" >
+
+@font-face {
+  font-family: 'iconfont';  /* project id 1720360 */
+  src: url('//at.alicdn.com/t/font_1720360_dwy4t7qfn.eot');
+  src: url('//at.alicdn.com/t/font_1720360_dwy4t7qfn.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_1720360_dwy4t7qfn.woff2') format('woff2'),
+  url('//at.alicdn.com/t/font_1720360_dwy4t7qfn.woff') format('woff'),
+  url('//at.alicdn.com/t/font_1720360_dwy4t7qfn.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_1720360_dwy4t7qfn.svg#iconfont') format('svg');
+}
+
+  button{
+    color: red;
+  }
+  .box{
+    .a{ 
+      font-family: 'iconfont';
+      color: red;
+      font-size: 84px;
+    }
+  }
 </style>
